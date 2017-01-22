@@ -26,12 +26,35 @@ After this worked I installed PostgreSQL using sudo apt-get install postgresql a
 
 Next I worked on creating a flask app first by moving to cd /var/www and running sudo mkdir catalog, then cd catalog, making another catalog directory within catalog.  Then I cd into FlaskApp and created two subdirectories using sudo mkdir static templates. I added __init__.py and catalog.wsgi with the contents from the https://www.digitalocean.com/community/tutorials/how-to-deploy-a-flask-application-on-an-ubuntu-vps website.  This all worked well so I started to create the catalog user.  Fan the commands sudo -u postgres psql -> CREATE ROLE catalog LOGIN PASSWORD 'catalog' -> \q -> createdb catalog -> exit -> sudo adduser catalog (with password catalog) -> logged in with sudo -u catalog psql -> also changed line in pg_hba.conf and changed all to md5 as I saw in the udacity forums
 
+Next I downloaded git using sudo apt install git -> git config --global user.email "mcortez121@gmail.com" -> git config --gloabl user.name "mathewCortez" -> then I had to get ssh keys and connect that with my account -> ssh-keygen -t rsa -b 4096 -C "mcortez121@gmail.com" and ssh-add ~/.ssh/id_rsa then copied the key to my clipboard to add to my github -> git clone https://www.github.com/mathewCortez/FSWD-Item-catalog into the catalog directory.
+
+Then I downloaded all the packages I needed for the catalog project to run inside the virtual environment -> pip install bleach httplib2 request oauthclient sqlalchemy python-psycopg2 -> the python-psycopg2 did not downlaod so I used sudo apt-get install python-psycopg2 and it worked.
+
+It said I didnt have the packages so installed sqlalchemy outside of the virtual env and then ran this command  -> ln -s /usr/lib/python2.7/dist-packages/sqlalchemy $VIRTUAL_ENV/lib/python2.7/site-packages
+I changed my sqlite to postgressql in the catalog files to postgresql://catalog:catalog@localhost/catalog
+
+Ran these commands in psql - from https://discussions.udacity.com/t/no-module-named-sqlalchemy-white-running-project-in-linux/203592/26
+ALTER USER catalog CREATEDB;
+CREATE DATABASE catalog WITH OWNER catalog;
+Connect to db: 
+\c catalog
+GRANT ALL ON SCHEMA public TO catalog;
+quit and exit: 
+\q
+exit
+
+Than I ran python database_setup.py and lotsofmenus.py 
+This displayed the app on the localhost but the login was not working
+I changed authorized Javascript orgins to include the AWS IP.  
+
+I then took out if __name__ = '__main__' in the catalog.py file so the secret key would be generated which is needed for the Google sign in to work.  I changed the contents in the client_secrets file to reflect the changes make to the authorized urls.
+
 
 
 ## iv. third-party resources you made use of to complete this project.
 
 I downloaded wget to help find the source of some problems
-Flask - because I saw that I needed it to run the catalog project
+wget -O - http://localhost:8080/index.html - I was able to get the apache2 index.html file with this command so I do not understand why it is not displaying on that URL.
 
 
 
