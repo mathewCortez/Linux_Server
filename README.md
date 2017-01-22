@@ -5,7 +5,7 @@ The public IP address is 35.167.25.97 and the SSH port is 2200
 
 ## ii. The complete URL to your hosted web application.
 
-None yet
+http://ec2-35-167-25-97.us-west-2.compute.amazonaws.com/
 
 ## iii. A summary of software you installed and configuration changes made.
 
